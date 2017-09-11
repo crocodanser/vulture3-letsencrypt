@@ -1,14 +1,20 @@
 # vulture3-letsencrypt
 
+Génération.sh permet de mettre à jour les certificats let's encrypt sur Vulture 3 ( Freebsd reverse proxy ) : https://www.vultureproject.org/
 
-## Créez les répertoires de challenge et attribuer les bons droits
- 
+
+### Pré-requis
+
+** Créez les répertoires de challenge et attribuer les bons droits **
+
+``` 
 mkdir -p /home/vlt-sys/Engine/static/.well-known/acme-challenge/<br />
 chown daemon:daemon /home/vlt-sys/Engine/static/.well-known/acme-challenge/<br />
 chmod 550 /home/vlt-sys/Engine/static/.well-known/acme-challenge/<br />
+```
  
-## Ajoutez ce répertoire dans le template /home/vlt-gui/vulture/vulture_toolkit/templates/vulture_httpd.conf, ligne 579.
-Votre configuration doit ressembler à ça (Très important d’avoir les 2 sections Directory avec le deuxième en « denied ») :
+** Ajoutez ce répertoire dans le template /home/vlt-gui/vulture/vulture_toolkit/templates/vulture_httpd.conf, ligne 579.
+Votre configuration doit ressembler à ça (Très important d’avoir les 2 sections Directory avec le deuxième en « denied ») : ** 
 ```
 <Directory /home/vlt-sys/Engine/static/ >
         Require all granted
@@ -21,7 +27,9 @@ Votre configuration doit ressembler à ça (Très important d’avoir les 2 sect
  
 Ensuite vous faites une règle de réécriture pour dire à vulture de servir localement le répertoire /.well-known/
 
-En SSH : 
+### Création du certificat 
+
+** En SSH : ** 
 
 Installer acme-client
 ```
@@ -36,6 +44,8 @@ acme-client -vNmnC /home/vlt-sys/Engine/static/.well-known/acme-challenge/ www.m
 
 Importer le certificat dans les PKI vulture
 Créer le profile correspondant, l'appliquer à votre application puis recharger les interfaces HTTPS
+
+### Mise à jour du certificat
 
 Pour mettre à jour régulèrement le certificat let's encrypt, il faut placer le script generation.sh sur votre serveur.
 Se connecter en root : 
