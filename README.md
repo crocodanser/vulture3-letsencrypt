@@ -3,20 +3,20 @@
 
 Créez le répertoire qui va bien :
  
-<code>mkdir -p /home/vlt-sys/Engine/static/.well-known/acme-challenge/
+mkdir -p /home/vlt-sys/Engine/static/.well-known/acme-challenge/
 chown daemon:daemon /home/vlt-sys/Engine/static/.well-known/acme-challenge/
-chmod 550 /home/vlt-sys/Engine/static/.well-known/acme-challenge/</code>
+chmod 550 /home/vlt-sys/Engine/static/.well-known/acme-challenge/
  
 Ajoutez ce répertoire dans le template /home/vlt-gui/vulture/vulture_toolkit/templates/vulture_httpd.conf, ligne 579.
 Votre configuration doit ressembler à ça (Très important d’avoir les 2 sections Directory avec le deuxième en « denied ») :
-<code> 
+
 <Directory /home/vlt-sys/Engine/static/ >
         Require all granted
 </Directory>
 <Directory /home/vlt-sys/Engine>
        Require all denied
 </Directory>
-</code>
+
 
  
 Ensuite vous faites une règle de réécriture pour dire à vulture de servir localement le répertoire /.well-known/
@@ -30,9 +30,9 @@ pkg install acme-client
 
 Lancer la création du challenge :
 
-<code>
+
 acme-client -vNmnC /home/vlt-sys/Engine/static/.well-known/acme-challenge/ www.mon-domaine.fr mondomaine.fr
-</code>
+
 
 Importer le certificat dans les PKI vulture
 Créer le profile correspondant, l'appliquer à votre application puis recharger les interfaces HTTPS
